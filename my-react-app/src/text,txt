@@ -1,0 +1,41 @@
+ludo-multiplayer/
+├── backend/                  # Node.js + Socket.io Server
+│   ├── src/
+│   │   ├── game/             # Core Game Mechanics
+│   │   │   ├── gameEngine.js # Handles turns, rolls, and validations
+│   │   │   └── rules.js      # ENFORCES CUSTOM HOUSE-ENTRY RULE HERE
+│   │   ├── handlers/         # Socket.io Event Handlers
+│   │   │   ├── connection.js # Handles player connect/disconnect
+│   │   │   └── gameHandler.js# Handles 'rollDice', 'moveToken' events
+│   │   ├── utils/            # Helper functions
+│   │   │   └── boardMap.js   # Coordinate mappings (if needed on backend)
+│   │   └── server.js         # Entry point (Express + Socket.io initialization)
+│   ├── .env                  # Port numbers, CORS origins
+│   ├── .gitignore
+│   └── package.json
+│
+├── frontend/                 # React UI (Vite-powered recommended)
+│   ├── public/               # Static assets (sounds, icons)
+│   │   └── audio/            # Dice roll and token capture sounds
+│   ├── src/
+│   │   ├── assets/           # Images/SVGs for board decorations
+│   │   ├── components/       # Reusable UI Elements
+│   │   │   ├── Board.jsx     # The 15x15 CSS Grid Ludo Board
+│   │   │   ├── Cell.jsx      # Individual track/safe-zone square
+│   │   │   ├── Token.jsx     # Movable player piece (with Framer Motion)
+│   │   │   └── Dice.jsx      # 3D or animated dice component
+│   │   ├── context/          # Global State / Socket Connection
+│   │   │   └── SocketContext.jsx # Manages the real-time socket instance
+│   │   ├── hooks/            # Custom React Hooks
+│   │   │   └── useGameState.js   # Subscribes to backend game updates
+│   │   ├── utils/
+│   │   │   └── gridMapping.js# Maps 1D game path to 15x15 CSS Grid (X, Y)
+│   │   ├── App.jsx           # Main layout and screen router (Lobby vs Game)
+│   │   ├── index.css         # Tailwind CSS / global styles
+│   │   └── main.jsx          # React DOM mounting
+│   ├── .gitignore
+│   ├── package.json
+│   ├── tailwind.config.js    # Highly recommended for grid layout styling
+│   └── vite.config.js
+│
+└── README.md                 # Setup and deployment documentation
