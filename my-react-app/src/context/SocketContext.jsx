@@ -7,7 +7,8 @@ import { io } from "socket.io-client";
 const SocketContext = createContext();
 
 // Use Vite's environment variable or fallback to localhost
-const SOCKET_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+const SOCKET_URL =
+  import.meta.env.VITE_BACKEND_URL || "https://ludo-backend.onrender.com";
 
 // 2. Create the Provider Component
 export const SocketProvider = ({ children }) => {
