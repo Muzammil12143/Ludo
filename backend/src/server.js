@@ -1,5 +1,5 @@
 // backend/src/server.js
-
+const { calculateSafeZoneMove } = require("./ludoLogic");
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -241,6 +241,11 @@ const handleConnection = (io, socket, stateRef) => {
 
   // Manual Token Move (For when Situation C happens)
   socket.on("moveToken", ({ playerColor, tokenId }) => {
+    const moveResult = calculateSafeZoneMove(token.safeZoneIndex, diceRoll);
+    if (!moveResult.valid) {
+      socket.emit("moveRejected", "Dice roll is too high!");
+      return;
+    }
     if (gameState.turn === playerColor && gameState.diceRolled) {
       const playerTokens = gameState.players[playerColor].tokens;
       const token = playerTokens.find((t) => t.id === tokenId);
