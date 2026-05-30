@@ -211,7 +211,17 @@ const Board = ({ gameState, myColor, socket }) => {
   );
 
   // Modular helper to generate dynamic cell content
+  // Modular helper to generate dynamic cell content
   const generateTrackCells = (armName, count, configFunc) => {
+    // 🎯 FIX: Map the physical board arm to the correct Player Color
+    const armToColor = {
+      top: "GREEN",
+      left: "BLUE",
+      right: "YELLOW",
+      bottom: "RED",
+    };
+    const armColor = armToColor[armName];
+
     return Array.from({ length: count }).map((_, i) => {
       const cellProps = configFunc(i);
 
@@ -219,14 +229,19 @@ const Board = ({ gameState, myColor, socket }) => {
       const trackEntry = Object.entries(globalTrackMap).find(
         ([_, [arm, cIdx]]) => arm === armName && cIdx === i,
       );
-      const homeEntry = Object.entries(
-        homePathMap[armName.toUpperCase()] || {},
-      ).find(([_, [arm, cIdx]]) => arm === armName && cIdx === i);
+
+      // 🎯 FIX: Use 'armColor' instead of 'armName.toUpperCase()'
+      const homeEntry = Object.entries(homePathMap[armColor] || {}).find(
+        ([_, [arm, cIdx]]) => arm === armName && cIdx === i,
+      );
 
       let cellKey = "";
       if (trackEntry) cellKey = `track_${trackEntry[0]}`;
-      if (homeEntry)
-        cellKey = `homePath_${armName.toUpperCase()}_${homeEntry[0]}`;
+
+      // 🎯 FIX: Build the correct cell key so the token actually renders
+      if (homeEntry) {
+        cellKey = `homePath_${armColor}_${homeEntry[0]}`;
+      }
 
       return (
         <div
